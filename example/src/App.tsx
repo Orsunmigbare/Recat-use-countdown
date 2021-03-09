@@ -1,10 +1,25 @@
 import React from 'react'
 
-import { ExampleComponent } from 'react-use-countdown'
+import { UseCountDown } from 'react-use-countdown'
 import 'react-use-countdown/dist/index.css'
 
 const App = () => {
-  return <ExampleComponent text="Create React Library Example 😄" />
+  const {
+    realTime,
+    timedOut,
+    canceled
+  } = UseCountDown({
+    future: Date.now().valueOf() + 40000
+  });
+
+
+  return (
+    <div>
+      realttime :  {realTime}, <br />
+      timedOut: {timedOut.toString()}, <br />
+      canceled: {canceled.toString()}
+    </div>
+  )
 }
 
 export default App
