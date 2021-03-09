@@ -13,16 +13,29 @@ npm install --save react-use-countdown
 ## Usage
 
 ```tsx
-import React, { Component } from 'react'
-
-import MyComponent from 'react-use-countdown'
+import { UseCountDown } from 'react-use-countdown'
 import 'react-use-countdown/dist/index.css'
 
-class Example extends Component {
-  render() {
-    return <MyComponent />
-  }
+const App = () => {
+  const {
+    realTime,
+    timedOut,
+    canceled
+  } = UseCountDown({
+    future: Date.now().valueOf() + 40000
+  });
+
+
+  return (
+    <div>
+      realttime :  {realTime}, <br />
+      timedOut: {timedOut.toString()}, <br />
+      canceled: {canceled.toString()}
+    </div>
+  )
 }
+
+export default App
 ```
 
 ## License
