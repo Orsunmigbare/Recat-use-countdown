@@ -5,20 +5,32 @@ import 'react-use-countdown/dist/index.css'
 
 const App = () => {
   const {
+    setFutureTime,
     realTime,
     timedOut,
-    canceled
+    canceled,
+    cancelTimeout
   } = UseCountDown({
-    future: Date.now().valueOf() + 40000
+    future: undefined
   });
 
 
+  const setFuture = () => {
+    setFutureTime(Date.now().valueOf() + 40000)
+  }
+  console.log("Canceled -->", canceled);
+
   return (
     <div>
-      realttime :  {realTime}, <br />
-      timedOut: {timedOut.toString()}, <br />
-      canceled: {canceled.toString()}
+      <div>
+        realttime :  {realTime}, <br />
+        timedOut: {timedOut.toString()}, <br />
+        canceled: {canceled.toString()}
+      </div>
+      <button onClick={() => cancelTimeout()}> Cancel </button>
+      <button onClick={setFuture}> setFuture </button>
     </div>
+
   )
 }
 

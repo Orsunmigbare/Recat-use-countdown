@@ -1,60 +1,61 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from 'react'
 
 const millisToMinutesAndSeconds = (millis: any) => {
-  let h, m, s;
-  h = Math.floor(millis / 1000 / 60 / 60);
-  m = Math.floor((millis / 1000 / 60 / 60 - h) * 60);
-  s = Math.floor(((millis / 1000 / 60 / 60 - h) * 60 - m) * 60);
-  return h + ":" + m + ":" + (s < 10 ? "0" : "") + s;
-};
+  let h, m, s
+  h = Math.floor(millis / 1000 / 60 / 60)
+  m = Math.floor((millis / 1000 / 60 / 60 - h) * 60)
+  s = Math.floor(((millis / 1000 / 60 / 60 - h) * 60 - m) * 60)
+  return h + ':' + m + ':' + (s < 10 ? '0' : '') + s
+}
 
-export const UseCountDown = ({ future, onTimeout }: CountDownProps): ReturnProps => {
-  const intervalRef: any = useRef();
+export const UseCountDown = ({
+  future,
+  onTimeout
+}: CountDownProps): ReturnProps => {
+  const intervalRef: any = useRef()
   const [state, setState] = useState({
-    realTime: "",
+    realTime: '',
     canceled: false,
     futureTime: future,
-    timedOut: false,
-  });
+    timedOut: false
+  })
 
-  const { realTime, canceled, futureTime, timedOut } = state;
+  const { realTime, canceled, futureTime, timedOut } = state
 
   useEffect(() => {
-    if (!futureTime) return;
-    if (futureTime - Date.now().valueOf() <= 0) return cancelTimeout(false);
+    if (!futureTime || canceled) return
+    if (futureTime - Date.now().valueOf() <= 0) return cancelTimeout(false)
 
     intervalRef.current = window.setInterval(() => {
       setState({
         ...state,
-        realTime: millisToMinutesAndSeconds(futureTime - Date.now().valueOf()),
-      });
-    }, 1050);
+        realTime: millisToMinutesAndSeconds(futureTime - Date.now().valueOf())
+      })
+    }, 1050)
 
     window.setTimeout(
       () => cancelTimeout(false),
       futureTime - Date.now().valueOf()
-    );
+    )
 
-    return () => cancelTimeout(false);
-  }, [futureTime]);
+    return () => cancelTimeout(false)
+  }, [futureTime])
 
   const cancelTimeout = (canceled = true) => {
-    window.clearInterval(intervalRef.current);
+    window.clearInterval(intervalRef.current)
 
-    setState({ ...state, timedOut: true, canceled: canceled, realTime: "" });
-    onTimeout?.();
-  };
+    setState({ ...state, timedOut: true, canceled: canceled, realTime: '' })
+    onTimeout?.()
+  }
 
   return {
     realTime,
     timedOut,
     setFutureTime: (time: any) => setState({ ...state, futureTime: time }),
     canceled,
-    cancelTimeout,
-  };
-};
-
-
+    cancelTimeout
+  }
+}
 
 interface CountDownProps {
   /**

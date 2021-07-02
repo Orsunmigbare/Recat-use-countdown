@@ -62,5 +62,13 @@
   },
   "files": [
     "dist"
-  ]
+  ],
+  "jest": {
+    "transform": {
+      "\\.js$": "<rootDir>/node_modules/babel-jest"
+    }
+  },
+  "dependencies": {
+    "ts-jest": "^27.0.0-next.12"
+  }
 }
